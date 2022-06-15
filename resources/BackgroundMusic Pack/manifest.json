@@ -1,0 +1,22 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "BackgroundMusic Resource Pack",
+        "name": "BackgroundMusic",
+        "uuid": "59a894d1-64e1-417e-bc91-d67e5194beaa",
+        "version": [0, 0, 1],
+        "min_engine_version": [1, 18, 0]
+    },
+    "modules": [
+        {
+            "description": "BackgroundMusic Resource Pack",
+            "type": "resources",
+            "uuid": "d623a08a-682f-4a84-af95-ef805525f678",
+            "version": [0, 0, 1]
+        }
+    ],
+    "metadata": {
+        "authors":["NhanAZ"],
+        "url":"https://github.com/NhanAZ"
+    }
+}

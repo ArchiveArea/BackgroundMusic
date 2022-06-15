@@ -1,0 +1,9 @@
+---
+name: BackgroundMusic
+author: NhanAZ
+version: 0.0.1
+api: 4.0.0
+main: NhanAZ\BackgroundMusic\Main
+website: https://github.com/NhanAZ
+description: Background music will be played many times when players join the server
+...
