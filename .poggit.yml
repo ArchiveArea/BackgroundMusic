@@ -1,0 +1,8 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/FrozenArea/BackgroundMusic
+build-by-default: true
+branches:
+- master
+projects:
+  BackgroundMusic:
+    path: ""
+...
