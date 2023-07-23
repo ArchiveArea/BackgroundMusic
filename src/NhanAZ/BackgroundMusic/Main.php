@@ -37,7 +37,6 @@ class Main extends PluginBase implements Listener {
 			if ($player->isOnline()) {
 				$player->getNetworkSession()->sendDataPacket($packet);
 			}
-		}), 4400);
-		/** 3m40s = 220s * 20 tick =  4400 tick */
+		}), 4400); /** 3m40s = 220s * 20 tick =  4400 tick */
 	}
 }
