@@ -1,7 +1,7 @@
 ---
 name: BackgroundMusic
 author: NhanAZ
-version: 0.0.2
+version: 0.0.3
 api: 5.0.0
 main: NhanAZ\BackgroundMusic\Main
 website: https://github.com/NhanAZ
