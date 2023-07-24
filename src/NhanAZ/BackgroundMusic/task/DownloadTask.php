@@ -19,23 +19,22 @@ class DownloadTask extends AsyncTask {
         private bool $finish
     ) {}
 
+	/**
+	 * @return void
+	 */
+	public function onRun(): void {
+		$this->setResult(Internet::getURL($this->url));
+	}
 
-    /**
-     * @return void
-     */
-    public function onRun(): void {
-        $this->setResult(Internet::getURL($this->url));
-    }
-
-    public function onCompletion(): void {
-        if (!$this->getResult() instanceof InternetRequestResult) {
-            return;
-        }
-        $content = $this->getResult()->getBody();
-        file_put_contents($this->path, $content);
-        if ($this->finish) {
-            Server::getInstance()->getLogger()->debug("Downloaded BackgroundMusic Pack!");
-            ResourcePackManager::registerResourcePack(Main::getInstance());
-        }
-    }
+	public function onCompletion(): void {
+		if (!$this->getResult() instanceof InternetRequestResult) {
+			return;
+		}
+		$content = $this->getResult()->getBody();
+		file_put_contents($this->path, $content);
+		if ($this->finish) {
+			Server::getInstance()->getLogger()->debug("Downloaded BackgroundMusic Pack!");
+			ResourcePackManager::registerResourcePack(Main::getInstance());
+		}
+	}
 }
