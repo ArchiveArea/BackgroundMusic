@@ -30,7 +30,7 @@ class Main extends PluginBase implements Listener {
             ResourcePackManager::registerResourcePack($this);
         }
     }
-
+    
     protected function onEnable(): void {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
