@@ -29,11 +29,11 @@ class GetInfoTask extends AsyncTask {
         if (!$result instanceof InternetRequestResult) {
             return;
         }
+		if ($result->getCode() !== 200) { // Error
+			@unlink(Path::join(RESOURCE_PACK_PATH));
+			return;
+		}
         $contents = json_decode($result->getBody(), true);
-        if (!is_array($contents)) { // When github limit request
-            @unlink(Path::join(RESOURCE_PACK_PATH));
-            return;
-        }
         $endFile = end($contents);
         foreach ($contents as $content) {
             if ($content["type"] === "dir") {
