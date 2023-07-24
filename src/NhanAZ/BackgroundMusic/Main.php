@@ -19,7 +19,7 @@ class Main extends PluginBase implements Listener {
 
 	use SingletonTrait;
 
-    const PACK_URL = "https://api.github.com/repos/jacob3105/BackgroundMusic/contents/BackgroundMusic%20Pack";
+    const PACK_URL = "https://api.github.com/repos/FrozenArea/BackgroundMusic/contents/BackgroundMusic%20Pack";
 
 	protected function onLoad(): void {
 		self::setInstance($this);
