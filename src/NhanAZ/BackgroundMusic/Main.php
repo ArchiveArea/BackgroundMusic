@@ -14,16 +14,18 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\SingletonTrait;
 use Symfony\Component\Filesystem\Path;
+use Phar;
 
 class Main extends PluginBase implements Listener {
 
 	use SingletonTrait;
 
-    const PACK_URL = "https://api.github.com/repos/FrozenArea/BackgroundMusic/contents/BackgroundMusic%20Pack";
+    const PACK_URL = "https://api.github.com/repos/jacob3105/BackgroundMusic/contents/BackgroundMusic%20Pack";
 
 	protected function onLoad(): void {
 		self::setInstance($this);
-		define("RESOURCE_PACK_PATH", Path::join($this->getFile(), "resources", "BackgroundMusic Pack"));
+		$pluginPath = (($phar = Phar::running()) === "") ? $this->getFile() : $phar;
+		define("RESOURCE_PACK_PATH", Path::join($pluginPath, "resources", "BackgroundMusic Pack"));
 		if (!is_dir(RESOURCE_PACK_PATH)) {
 			@mkdir(RESOURCE_PACK_PATH);
 			$this->getLogger()->info("Downloading BackgroundMusic Pack...");
