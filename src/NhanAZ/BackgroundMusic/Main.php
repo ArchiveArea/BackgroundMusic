@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace NhanAZ\BackgroundMusic;
 
 use NhanAZ\BackgroundMusic\task\DownloadTask;
+use NhanAZ\BackgroundMusic\task\GetInfoTask;
 use NhanAZ\libBedrock\ResourcePackManager;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -18,16 +19,21 @@ class Main extends PluginBase implements Listener {
 
     use SingletonTrait;
 
-    const PACK_URL = "https://github.com/FrozenArea/BackgroundMusic/raw/master/BackgroundMusic%20Pack.zip";
+    const PACK_URL = "https://github.com/repos/FrozenArea/BackgroundMusic/contents/BackgroundMusic%20Pack";
 
     protected function onLoad(): void {
         self::setInstance($this);
         define("RESOURCE_PACK_PATH", Path::join($this->getFile(), "resources", "BackgroundMusic Pack"));
         if (!is_dir(RESOURCE_PACK_PATH)) {
+            @mkdir(RESOURCE_PACK_PATH);
             $this->getLogger()->info("Downloading BackgroundMusic Pack...");
-            $this->getServer()->getAsyncPool()->submitTask(new DownloadTask());
+            $this->getServer()->getAsyncPool()->submitTask(new GetInfoTask(self::PACK_URL));
         } else {
-            ResourcePackManager::registerResourcePack($this);
+            try {
+                ResourcePackManager::registerResourcePack($this);
+            } catch (\Exception) {
+                @rmdir(RESOURCE_PACK_PATH);
+            }
         }
     }
 
@@ -36,7 +42,9 @@ class Main extends PluginBase implements Listener {
     }
 
     protected function onDisable(): void {
-        ResourcePackManager::unRegisterResourcePack($this);
+        try {
+            ResourcePackManager::unRegisterResourcePack($this);
+        } catch (\Exception) {}
     }
 
     public function onJoin(PlayerJoinEvent $event): void {

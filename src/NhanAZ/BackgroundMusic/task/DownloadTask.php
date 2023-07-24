@@ -13,12 +13,18 @@ use pocketmine\utils\InternetRequestResult;
 
 class DownloadTask extends AsyncTask {
 
+    public function __construct(
+        private readonly string $url,
+        private readonly string $path,
+        private readonly bool $finish
+    ) {}
+
 
     /**
      * @return void
      */
     public function onRun(): void {
-        $this->setResult(Internet::getURL(Main::PACK_URL));
+        $this->setResult(Internet::getURL($this->url));
     }
 
     public function onCompletion(): void {
@@ -26,14 +32,10 @@ class DownloadTask extends AsyncTask {
             return;
         }
         $content = $this->getResult()->getBody();
-        file_put_contents(RESOURCE_PACK_PATH . ".zip", $content);
-        Server::getInstance()->getLogger()->debug("Downloaded BackgroundMusic Pack!");
-        $zip = new \ZipArchive();
-        $zip->open(RESOURCE_PACK_PATH . ".zip");
-        $zip->extractTo(RESOURCE_PACK_PATH);
-        $zip->close();
-        @unlink(RESOURCE_PACK_PATH . ".zip");
-        Server::getInstance()->getLogger()->debug("Extracted BackgroundMusic Pack!");
-        ResourcePackManager::registerResourcePack(Main::getInstance());
+        file_put_contents($this->path, $content);
+        if ($this->finish) {
+            Server::getInstance()->getLogger()->debug("Downloaded BackgroundMusic Pack!");
+            ResourcePackManager::registerResourcePack(Main::getInstance());
+        }
     }
 }
