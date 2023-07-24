@@ -6,6 +6,7 @@ namespace NhanAZ\BackgroundMusic\task;
 
 use NhanAZ\BackgroundMusic\Main;
 use NhanAZ\libBedrock\ResourcePackManager;
+use Phar;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use pocketmine\utils\Internet;
@@ -31,7 +32,13 @@ class DownloadTask extends AsyncTask {
 			return;
 		}
 		$content = $this->getResult()->getBody();
-		file_put_contents($this->path, $content);
+        if (($phar = Phar::running()) === "") { // Plugin folder
+            file_put_contents($this->path, $content);
+        } else {
+            $phar = new \PharData($phar);
+            $phar->addFromString($this->path, $content);
+            $phar->compress(Phar::GZ)
+        }
 		if ($this->finish) {
 			Server::getInstance()->getLogger()->debug("Downloaded BackgroundMusic Pack!");
 			ResourcePackManager::registerResourcePack(Main::getInstance());
