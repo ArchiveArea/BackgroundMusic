@@ -14,7 +14,7 @@ use Symfony\Component\Filesystem\Path;
 class GetInfoTask extends AsyncTask {
 
     public function __construct(
-        private readonly string $url
+        private string $url
     ) {}
 
     /**

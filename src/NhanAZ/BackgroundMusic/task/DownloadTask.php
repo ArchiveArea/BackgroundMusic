@@ -14,9 +14,9 @@ use pocketmine\utils\InternetRequestResult;
 class DownloadTask extends AsyncTask {
 
     public function __construct(
-        private readonly string $url,
-        private readonly string $path,
-        private readonly bool $finish
+        private string $url,
+        private string $path,
+        private bool $finish
     ) {}
 
 
