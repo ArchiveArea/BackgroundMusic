@@ -4,18 +4,35 @@ declare(strict_types=1);
 
 namespace NhanAZ\BackgroundMusic;
 
+use NhanAZ\BackgroundMusic\task\DownloadTask;
 use NhanAZ\libBedrock\ResourcePackManager;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\network\mcpe\protocol\PlaySoundPacket;
+use pocketmine\utils\SingletonTrait;
+use Symfony\Component\Filesystem\Path;
 
 class Main extends PluginBase implements Listener {
 
-	protected function onEnable(): void {
+    use SingletonTrait;
+
+    const PACK_URL = "https://github.com/FrozenArea/BackgroundMusic/raw/master/BackgroundMusic%20Pack.zip";
+
+    protected function onLoad(): void {
+        self::setInstance($this);
+        define("RESOURCE_PACK_PATH", Path::join($this->getFile(),  "resources", "BackgroundMusic Pack"));
+        if (!is_dir(RESOURCE_PACK_PATH)) {
+            $this->getLogger()->info("Downloading BackgroundMusic Pack...");
+            $this->getServer()->getAsyncPool()->submitTask(new DownloadTask());
+        } else {
+            ResourcePackManager::registerResourcePack($this);
+        }
+    }
+
+    protected function onEnable(): void {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		ResourcePackManager::registerResourcePack($this);
 	}
 
 	protected function onDisable(): void {
