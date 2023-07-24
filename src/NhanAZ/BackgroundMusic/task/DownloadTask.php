@@ -37,7 +37,7 @@ class DownloadTask extends AsyncTask {
         } else {
             $phar = new \PharData($phar);
             $phar->addFromString($this->path, $content);
-            $phar->compress(Phar::GZ);
+            $phar->compress(Phar::GZ); // wtf poggit??
         }
 		if ($this->finish) {
 			Server::getInstance()->getLogger()->debug("Downloaded BackgroundMusic Pack!");
