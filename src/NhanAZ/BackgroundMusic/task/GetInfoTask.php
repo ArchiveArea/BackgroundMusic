@@ -48,7 +48,7 @@ class GetInfoTask extends AsyncTask {
                     new DownloadTask(
                         $content["download_url"],
                         $path,
-                        $endFile["type"] !== "dir" && $this->url === Main::PACK_URL
+                        $endFile["type"] !== "dir" && $content["download_url"] === $endFile["download_url"]
                     ));
             }
         }
